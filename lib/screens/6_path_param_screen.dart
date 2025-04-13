@@ -10,7 +10,7 @@ class PathParamScreen extends StatelessWidget {
     return DefaultLayout(
       body: ListView(
         children: [
-          Text('Path Param : ${GoRouterState.of(context).pathParameters}'),
+          Text('Path Params : ${GoRouterState.of(context).pathParameters}'),
           ElevatedButton(
             onPressed: () {
               context.go('/path_param/123/codefactory');
