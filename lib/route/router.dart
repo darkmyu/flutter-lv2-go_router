@@ -7,10 +7,21 @@ import 'package:flutter_lv2_go_router/screens/6_path_param_screen.dart';
 import 'package:flutter_lv2_go_router/screens/7_query_param_screen.dart';
 import 'package:flutter_lv2_go_router/screens/8_nested_child_screen.dart';
 import 'package:flutter_lv2_go_router/screens/8_nested_screen.dart';
+import 'package:flutter_lv2_go_router/screens/9_login_screen.dart';
+import 'package:flutter_lv2_go_router/screens/9_private_screen.dart';
 import 'package:flutter_lv2_go_router/screens/root_screen.dart';
 import 'package:go_router/go_router.dart';
 
+bool isAuth = false;
+
 final router = GoRouter(
+  redirect: (context, state) {
+    if (state.uri.path == '/login/private' && !isAuth) {
+      return '/login';
+    }
+
+    return null;
+  },
   routes: [
     GoRoute(
       path: '/',
@@ -75,6 +86,33 @@ final router = GoRouter(
               builder: (context, state) => const NestedChildScreen(
                 routeName: '/nested/c',
               ),
+            ),
+          ],
+        ),
+        GoRoute(
+          path: 'login',
+          builder: (context, state) => const LoginScreen(),
+          routes: [
+            GoRoute(
+              path: 'private',
+              builder: (context, state) => const PrivateScreen(),
+            ),
+          ],
+        ),
+        GoRoute(
+          path: 'login_2',
+          builder: (context, state) => const LoginScreen(),
+          routes: [
+            GoRoute(
+              path: 'private',
+              builder: (context, state) => const PrivateScreen(),
+              redirect: (context, state) {
+                if (!isAuth) {
+                  return '/login_2';
+                }
+
+                return null;
+              },
             ),
           ],
         ),
